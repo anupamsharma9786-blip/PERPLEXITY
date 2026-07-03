@@ -2,9 +2,6 @@ import dotenv from 'dotenv';
 import app from './src/app.js';
 import connectDatabase from './src/config/database.js';
 
-import { testAi } from './src/services/ai.service.js';
-
-testAi()
 dotenv.config();
 
 const PORT = process.env.PORT ;

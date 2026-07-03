@@ -6,9 +6,5 @@ const model = new ChatGoogleGenerativeAI({
     apiKey: process.env.GEMINI_API_KEY
 });
 
-export async function testAi() {
-    const response = await model.invoke("Why do parrots talk , explain under 30 words");
 
-    console.log(response.text)
-}
 

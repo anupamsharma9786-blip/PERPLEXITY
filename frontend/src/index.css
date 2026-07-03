@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: Inter, system-ui, sans-serif;
+    background-color: #07090f;
+    background-image: radial-gradient(rgba(148, 163, 184, 0.15) 0.5px, transparent 0.5px);
+    background-size: 20px 20px;
+    min-height: 100vh;
+    color: #e2e8f0;
+  }
+}
+
+.paper-card {
+  filter: url(#rough-edge);
+}
+
+.shadow-hard {
+  box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.5);
+}
+
+.shadow-hard-lg {
+  box-shadow: 8px 8px 0 rgba(15, 23, 42, 0.5);
+}
+
+.shadow-hard-primary {
+  box-shadow: 4px 4px 0 #6d28d9;
+}
+
+.custom-cursor {
+  caret-color: #a78bfa;
+}
+
+@keyframes wobble {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(0.5deg); }
+  75% { transform: rotate(-0.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.wobble-hover:hover {
+  animation: wobble 0.3s infinite ease-in-out;
+}

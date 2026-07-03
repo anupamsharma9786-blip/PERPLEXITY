@@ -61,7 +61,7 @@ export async function login(req, res) {
         email: email
     })
 
-    if(!user){
+    if (!user) {
         return res.status(400).json({
             message: "Invalid credentials",
             success: false,
@@ -71,7 +71,7 @@ export async function login(req, res) {
 
     const isPasswordMatch = await user.comparePassword(password)
 
-    if(!isPasswordMatch){
+    if (!isPasswordMatch) {
         return res.status(400).json({
             message: "Invalid credentials",
             success: false,
@@ -79,7 +79,7 @@ export async function login(req, res) {
         })
     }
 
-    if(!user.verified){
+    if (!user.verified) {
         return res.status(400).json({
             message: "please verify your email before login",
             success: false,
@@ -90,14 +90,14 @@ export async function login(req, res) {
     const token = jwt.sign({
         id: user._id,
         email: email
-    }, process.env.JWT_SECRET, {expiresIn: "7d"})
+    }, process.env.JWT_SECRET, { expiresIn: "7d" })
 
-    res.cookie("token",token)
+    res.cookie("token", token)
 
     res.status(200).json({
         message: "user logged in successfully",
         success: true,
-        user:{
+        user: {
             id: user._id,
             username: user.username,
             email: user.email,
@@ -105,15 +105,15 @@ export async function login(req, res) {
     })
 }
 
-export async function getMe(req, res){
+export async function getMe(req, res) {
 
     console.log(req.user)
 
     const userId = req.user.id
-    
+
     const user = await userModel.findById(userId).select("-password")
 
-    if(!user){
+    if (!user) {
         return res.status(404).json({
             message: "user doesn't exists",
             success: false,
@@ -146,23 +146,26 @@ export async function verifyEmail(req, res) {
             })
         }
 
+
+
         if (user.verified) {
-            return res.status(409).json({
-                message: "User already verified",
-                success: false,
-                err: "user already verified"
-            })
+
+            const verifiedHtml = `<h1>You are already verified</h1>
+                    <p>You can now login to your account</p>
+                    <a href="http://localhost:3000/login">Login</a>`
+
+            return res.send(verifiedHtml)
         }
 
         user.verified = true;
 
         await user.save()
 
-        const html = `<h1>Email verified successfully</h1>
+        const finalHtml = `<h1>Email verified successfully</h1>
                     <p>You can now login to your account</p>
                     <a href="http://localhost:3000/login">Login</a>
     `
-        res.send(html)
+        res.send(finalHtml)
 
     } catch (err) {
         return res.status(400).json({
