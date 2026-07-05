@@ -1,15 +1,25 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Register = () => {
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  
+  const navigate = useNavigate()
+
+  const user = useSelector(state => state.auth.user)
+  const loading = useSelector(state => state.auth.loading)
 
   const handleSubmit = (event) => {
     event.preventDefault()
     console.log('Register submit', { email, username, password })
     // TODO: connect to auth API
+  }
+
+  if(!loading && user){
+    navigate("/")
   }
 
   return (

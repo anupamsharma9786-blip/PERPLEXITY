@@ -1,16 +1,29 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
+import { useSelector } from 'react-redux'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const { handleLogin } = useAuth()
 
-  const handleSubmit = (event) => {
+  const user = useSelector(state => state.auth.user)
+  const loading = useSelector(state => state.auth.loading)
+
+  const navigate= useNavigate()
+
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log('Login submit', { email, password })
-    // TODO: connect to auth API
+    await handleLogin({ email, password })
+    navigate('/')
   }
 
+
+  if(user && !loading){
+    navigate('/')
+  }
+  
   return (
     <div className="min-h-screen flex items-center justify-center px-6 py-12 bg-[#07090f]">
       <div className="w-full max-w-md flex flex-col gap-8">

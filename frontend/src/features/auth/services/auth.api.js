@@ -29,11 +29,8 @@ export const register = async ({email, username, password})=>{
 
 export const getMe = async ()=>{
 
-    const response = await api.get("/api/auth/get-me", {
-        username: username,
-        email: email,
-        password: password
-    })
+    const response = await api.get("/api/auth/get-me")
+    
 
     return response.data
 }
