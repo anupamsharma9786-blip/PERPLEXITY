@@ -20,7 +20,7 @@ const Login = () => {
   }
 
 
-  if(user && !loading){
+  if(user){
     navigate('/')
   }
   

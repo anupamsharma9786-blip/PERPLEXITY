@@ -7,17 +7,15 @@ const messageSchema = new mongoose.Schema(
       ref: 'Chat',
       required: true,
     },
+    role: {
+      type: String,
+      enum: ['User', 'AI'],
+      required: true,
+    },
     content: {
-      role: {
-        type: String,
-        enum: ['user', 'AI'],
-        required: true,
-      },
-      text: {
-        type: String,
-        required: true,
-        trim: true,
-      },
+      type: String,
+      required: true,
+      trim: true,
     },
   },
   {
