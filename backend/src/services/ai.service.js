@@ -28,7 +28,7 @@ const searchWebTool = tool(
 
 
 const agent = createAgent({
-    model: mistralModel,
+    model: geminiModel,
     tools: [searchWebTool],
 })
 
