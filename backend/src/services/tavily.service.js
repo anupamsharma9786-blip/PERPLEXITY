@@ -11,6 +11,6 @@ export async function searchWeb(query) {
         maxResults: "5",
         searchDepth: "advanced"
     });
-    console.log(response)
-    return response
+    
+    return JSON.stringify(response)
 }

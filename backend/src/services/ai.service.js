@@ -19,7 +19,7 @@ const searchWebTool = tool(
     searchWeb,
     {
         name: "searchWeb",
-        description: "use this tool to search the web for latest information. Input should be a search query string. The output will be the search results. Use this tool when the user asks for information that is not available in the chat history or when the user asks for information that is time-sensitive or requires up-to-date information.",
+        description: "use this tool to search the web for latest information. Input should be a search query string. The output will be the search results. Use this tool when the user asks for information that is not available in the chat history or when the user asks for information that is time-sensitive or requires up-to-date information, if user asks curretn date and time you can use this tool",
         inputSchema: z.object({
             query: z.string().describe("The search query string to search the web for.")
         })
@@ -28,7 +28,7 @@ const searchWebTool = tool(
 
 
 const agent = createAgent({
-    model: geminiModel,
+    model: mistralModel,
     tools: [searchWebTool],
 })
 
