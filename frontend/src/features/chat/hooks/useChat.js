@@ -7,22 +7,36 @@ export const useChat = () => {
 
     const dispatch = useDispatch()
 
-    async function handSendMessage({message, chatId}) {
+    async function handSendMessage({ message, chatId }) {
         dispatch(setLoading(true))
 
-        const data = await sendMessage({message, chatId})
+        console.log(chatId)
 
-        const {chat, aiMessage} = data
+        if (chatId) {
+            dispatch(addNewMessage({
+                chatId: chatId,
+                content: message,
+                role: "User"
+            }))
+        }
+
+        const data = await sendMessage({ message, chatId })
+
+        const { chat, aiMessage } = data
 
         dispatch(createNewchat({
             chatId: chat._id,
             title: chat.title
         }))
-        dispatch(addNewMessage({
-            chatId: chat._id,
-            content: message,
-            role: "User"
-        }))
+
+        if (!chatId) {
+            dispatch(addNewMessage({
+                chatId: chat._id,
+                content: message,
+                role: "User"
+            }))
+        }
+
         dispatch(addNewMessage({
             chatId: chat._id,
             content: aiMessage.content,
@@ -34,13 +48,13 @@ export const useChat = () => {
 
     }
 
-    async function handleGetChats(chatId){
+    async function handleGetChats(chatId) {
         dispatch(setLoading(true))
 
         const data = await getChats()
-        const {chats} = data
+        const { chats } = data
 
-        dispatch(setChats(chats.reduce((acc, chat)=>{
+        dispatch(setChats(chats.reduce((acc, chat) => {
             acc[chat._id] = {
                 chatId: chat._id,
                 title: chat.title,
@@ -48,18 +62,18 @@ export const useChat = () => {
                 lastUpdated: chat.updatedAt
             }
             return acc
-        },{})))
+        }, {})))
 
         setLoading(false)
-        
+
     }
 
-    async function handleOpenChat(chatId){
+    async function handleOpenChat(chatId) {
         dispatch(setLoading(true))
         const data = await getMessages(chatId)
 
-        const {messages} = data
-       
+        const { messages } = data
+
         const formattedMessages = messages.map(msg => {
             return {
                 content: msg.content,
@@ -67,8 +81,8 @@ export const useChat = () => {
             }
         })
 
-       
-        dispatch(addMessages({chatId, formattedMessages}))
+
+        dispatch(addMessages({ chatId, formattedMessages }))
         dispatch(setCurrentChatId(chatId))
         dispatch(setLoading(false))
     }
